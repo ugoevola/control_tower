@@ -3,10 +3,16 @@ from __future__ import annotations
 import pytest
 from unittest.mock import Mock
 from main.app.app_container import AppContainer
-from main.app.use_cases import GetRiskFactorUseCase
+from main.app.use_cases import GetRadarUseCase, GetRiskFactorUseCase
 
 
 # dao mocks
+@pytest.fixture(scope='module', autouse=True)
+def risk_factor_priority_dao_mock():
+    mock = Mock()
+    yield mock
+
+
 @pytest.fixture(scope='module', autouse=True)
 def risk_factor_dao_mock():
     mock = Mock()
@@ -20,10 +26,16 @@ def get_risk_factor_use_case():
 
 
 @pytest.fixture(scope='module', autouse=True)
-def container(risk_factor_dao_mock):
+def get_radar_use_case():
+    return GetRadarUseCase()
+
+
+@pytest.fixture(scope='module', autouse=True)
+def container(risk_factor_priority_dao_mock, risk_factor_dao_mock):
     container = AppContainer()
     container.init_resources()
     container.domain.wire(packages=['main.app.use_cases'])
+    container.domain.risk_factor_priority_dao.override(risk_factor_priority_dao_mock)
     container.domain.risk_factor_dao.override(risk_factor_dao_mock)
     yield container
     container.unwire()

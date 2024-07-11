@@ -36,3 +36,22 @@ VALUES
     ('1710d973-074c-4c30-8d7b-f95bd06fa736', 'Changements dans les exigences du client', 0.7, 'variable'),
     ('f7f1207c-e120-4f9e-9103-8ad99c1ede61', 'Problèmes de ressources humaines', 0.5, 'modéré'),
     ('f0424b6c-e1c0-4299-9128-16f1081550e1', 'Problèmes techniques imprévus', 0.9, 'élevé');
+
+-- requête sql résolution du pb
+SELECT
+    rfp.risk_factor_id AS risk_factor_id,
+    rf.name AS risk_factor_name,
+    RANK() OVER (ORDER BY AVG(rfp.risk_priority_score)) AS priority_score
+FROM
+    risk_factor_priority rfp
+JOIN
+    risk_factor rf
+    ON rfp.risk_factor_id = rf.id
+WHERE
+    rfp.organization_id = :organization_id
+    AND rfp.is_project_evaluation_last = TRUE
+GROUP BY
+    rfp.risk_factor_id,
+    rf.name
+ORDER BY
+    AVG(rfp.risk_priority_score);
