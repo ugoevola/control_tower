@@ -1,0 +1,13 @@
+flask:
+  debug: true
+  port: 5000
+
+api:
+  doc: '/docs'
+  title: 'Control Tower API Documentation'
+  description: "Control Tower is an API that provides metrics on project's risk factors."
+  version: '1.0'
+
+database:
+  uri: 'postgresql+psycopg2://admin:password@127.0.0.1:5432/control_tower'
+  track_modifications: false

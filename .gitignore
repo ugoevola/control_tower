@@ -1,0 +1,19 @@
+# Dossiers de cache Python
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
+**/control_tower.egg-info/
+
+# Configuration de l'environnement virtuel
+**/venv/
+**/env/
+**/.venv/
+**/.env/
+
+# Fichiers et dossiers générés
+**/*.egg-info/
+**/dist/
+**/build/
+
+# Configuration du projet IntelliJ IDEA
+.idea/
